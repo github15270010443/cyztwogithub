@@ -1,0 +1,112 @@
+<!DOCTYPE htmlPUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>定位position</title>
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+.mydiv {
+	width: 800px;
+	height: 1800px;
+	background-color: black;
+	margin: 20px 0 0 100px;
+}
+
+.div1 {
+	width: 200px;
+	height: 80px;
+	background-color: red;
+}
+
+.div2 {
+	width: 240px;
+	height: 120px;
+	background-color: yellow;
+	position: relative;
+	left: 50px;
+	top: 50px;
+}
+
+.div3 {
+	width: 280px;
+	height: 200px;
+	background-color: blue;
+	position: relative;
+}
+
+.div4 {
+	width: 400px;
+	height: 50px;
+	background-color: #c39025;
+}
+
+.div3-1 {
+	width: 100px;
+	height: 40px;
+	background-color: green;
+}
+
+.div3-2 {
+	width: 80px;
+	height: 50px;
+	background-color: #808080;
+	position: absolute;
+	right: -50px;
+	top: 50px;
+}
+
+.div3-3 {
+	width: 90px;
+	height: 40px;
+	background-color:  greenyellow;
+}
+.div4 {
+	height: 150px;
+	background-color: #ccc;
+}
+.div5 {
+	width: 150px;
+	height: 150px;
+	background-color: pink;
+	position: fixed;
+	right: 0px;
+	top: 850px;
+}
+
+</style>
+</head>
+<body>
+ <span id="colorChange">我变变！！</span>
+        <button onClick="javascript:change()">点我就变</button>
+         
+        <script >	
+        function change() {
+        	alert("111");
+            var cc = document.getElementById("colorChange");
+       
+            setTimeout("cc.style.color = '#0f0'",500);
+            setTimeout("cc.style.color = '#00f'",500);
+            setTimeout("cc.style.color = '#ff0'",500);
+        }
+        </script>
+	<div class="mydiv">
+		<div class="div1">默认定位1</div>
+		<!-- 相对定位  会占用像素 -->
+		<div class="div2">相对定位</div>
+		<div class="div3">
+			<div class="div3-1" style="float:left;">默认定位2</div>
+			<div class="div3-2">绝对定位</div>
+			<!-- 绝对定位  不占用像素-->
+			<div class="div3-3" style="float:left;">默认定位3</div>
+		</div>
+		<div class="div4">DIV默认取最后一次的样式会覆盖</div>
+		    <!-- 固定定位  不占用像素-->
+		<div class="div5">固定定位</div>
+	</div>
+	
+</body>
+</html>
