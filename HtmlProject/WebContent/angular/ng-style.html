@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ng-style和ng-class显示隐藏的用法</title>
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+<style media="screen">
+.box{
+width:100px;
+height:100px;
+background:blue;
+}
+.box1{
+border:2px solid black;
+}
+.box2{
+border-radius: 50%;
+}
+.box3{
+background: pink;
+}
+.box4{
+background: orange;
+}
+</style>
+
+</head>
+<!--ng-style的用法，注意需要声明初始化ng-app,否则所有标签不起作用，可放在div上---->
+<body ng-app=""  ng-init="c1='box1';c2='box2';bol=true;isC1=true;isC2=true;isC3=false">
+<div ng-init="styleObj={backgroundColor:'red',width:'100px',height:'100px'}">
+ <div ng-style="styleObj"></div>
+</div>
+	
+<!--ng-class三种写法  作用相当于追加样式---->
+<!--第一种写法,直接等于初始化的值-->	
+<div class='box' ng-class="c1"></div>	
+
+
+<!--第二种写法,把定义的变量名放在数组中，内容是二选一的格式-->
+<div class='box' ng-class="{true:'box2',false:'box3'}[bol]"></div>	
+
+<!--第三种写法,添加多个样式，注意外层{}-->
+<div class='box' ng-class="{'box1':isC1,'box2':isC2,'box3':isC3}"></div>
+
+<!--添加多个不同标签的样式，只能这样写，第一种只能加一个样式，但是可以把多个样式 放一个标签里,相同的样式是覆盖-->
+<div class='box' ng-class="{'box1':isC1,'box2':isC1,'box3':isC1,'box4':isC1}"></div>
+<!-- 建议多个样式用最下边这种 ，更简单直接 -->
+<div class='box' ng-class="{'box1':true,'box2':true,'box3':true,'box4':false}"></div>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<title>过滤器orderBy limitTo  filter的用法</title>
+<script src="../js/angular-1.4.6.min.js"></script>
+</head>
+
+<body ng-controller="myController">
+     
+     <ol><!-- ng-repeat 不加过滤默认数组下标升序排的 -->
+       <li ng-repeat="item in items">{{item.name}}---{{item.price}}</li>
+     </ol>
+     <ol><!-- orderBy: 汉字过滤默认按照首字母倒叙排序排的 -->
+       <li ng-repeat="item in items | orderBy:'name'">{{item.name}}---{{item.price}}</li>
+     </ol>
+     <ol><!-- orderBy:'price' 数字默认按照数目从小到大排的 -->
+       <li ng-repeat="item in items | orderBy:'price'">{{item.name}}---{{item.price}}</li>
+     </ol>
+     <ol><!--  orderBy:'price':true  加上true反向排序 -->
+       <li ng-repeat="item in items | orderBy:'price':true ">{{item.name}}---{{item.price}}</li>
+     </ol>
+     <ol><!--  limitTo:2 当为对象的时候 表示只展示2条数据 从开始取2条 当为0的时候 什么都不显示 当取值超过条数  只展示存在的条数-->
+       <li ng-repeat="item in items | limitTo:2">{{item.name}}---{{item.price}}</li>
+     </ol>
+     <ol><!--  limitTo:2  表示只展示2条数据 从末尾取最后2条-->
+       <li ng-repeat="item in items | limitTo:-2">{{item.name}}---{{item.price}}</li>
+     </ol>
+     <!--  limitTo:2  当值为字符串的时候 表示只展示2个长度字符,数法同上-->
+     {{ "hello" | limitTo:2}}
+     {{ "hello" | limitTo:-2}}
+     
+     <ol><!--  filter::5  表示过滤只要数据中包含的，不区分字段和值-->
+       <li ng-repeat="item in items | filter:'5' ">{{item.name}}---{{item.price}}</li>
+     </ol>
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	app.controller("myController", ["$scope", function($scope) {
+		$scope.items=[{
+			name:"苹果",
+			price:"7999",
+		},{
+			name:"三星",
+			price:"6568",
+		},{
+			name:"黑莓",
+			price:"4050",
+		}]
+	} ])
+	
+</script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<title>$scope作用域 用法</title>
+<script src="../js/angular-1.4.6.min.js"></script>
+</head>
+
+<body ng-controller="myController">
+	{{name}} {{age}}
+	<div ng-controller="myController2">{{name}} {{age}} {{address}}</div>
+
+</body>
+<!-- 作用域子级继承父级，可以拿到父级属性， 父级不能拿子级和同级作用域的属性 -->
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	app.run([ "$rootScope", function($rootScope) {
+		$rootScope.age = 30;
+	} ]);
+
+	app.controller("myController", [ "$scope", function($scope) {
+		$scope.name = "测试";
+	} ])
+
+	app.controller("myController2", [ "$scope", function($scope) {
+		$scope.address = "北京";
+	} ])
+</script>
+</html>

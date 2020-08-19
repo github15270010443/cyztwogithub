@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ngModel的用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+<body ng-app="" ng-init="age='30'">
+	<input type="text" ng-model="name">
+	<h1>{{name}}</h1>
+	<select ng-model="age">
+		<option value="30">30岁</option>
+		<option value="40">40岁</option>
+	</select>
+
+	<h1>{{age}}</h1>
+	<input type="checkbox" ng-model="sex"> {{sex}}
+</body>
+</html>

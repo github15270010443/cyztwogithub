@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ngSwitch的用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+<!--记得true和fase值不用扩单引号-->	
+<body ng-app="">
+
+<select ng-model="selectItem">
+<option value="java">Java</option>
+<option value="php">PHP</option>
+</select>
+<hr>
+{{selectItem}}
+
+<div  ng-switch="selectItem">
+<h1  ng-switch-when="java">你选择的java</h1>
+<h1  ng-switch-when="php">你选择的php</h1>
+<h1  ng-switch-default>你什么都没选择</h1>
+</div>
+
+</body>
+</html>

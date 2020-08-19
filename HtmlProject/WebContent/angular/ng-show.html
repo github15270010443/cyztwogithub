@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ngShow显示隐藏的用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+<!--记得true和fase值不用扩单引号-->	
+<body ng-app="" ng-init="issShow=false">
+<input type="checkbox" ng-model="issShow">
+{{issShow}}
+	
+<h1 ng-show="issShow">你能看到我的</h1>
+<h2 ng-if="issShow">这次能看到我</h2>
+<!--系统字段之间可以有空格 不影响，自定义的不行-->	
+<button ng-click=" issShow= ! issShow">点击</button>
+</body>
+</html>
