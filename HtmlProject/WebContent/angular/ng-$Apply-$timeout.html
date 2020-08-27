@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>$http请求的$apply $watch $timeout $interval用法</title>
+<!-- setTimeout()在指定时间后只执行函数一次 -->
+<!-- setInterval()会不停的调用函数，直到clearInterval()被调用或者窗口被关闭,setInterval()返回的ID值可用作clearInterval()方法的参数-->
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+</head>
+
+<body >
+	<div  ng-controller="myController4">
+	{{name}}
+	<button type="button" ng-click="change()" name="button"></button>
+	</div>
+	
+	<div  ng-controller="myController5">
+	{{name}}
+	<button type="button" ng-click="change()" name="button"></button>
+	</div>
+	
+	<div  ng-controller="myController6">
+	{{name}} 
+	{{age}}
+	<button type="button" ng-click="change()" name="button"></button>
+	</div>
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	
+	app.controller("myController4", ["$scope", function($scope) {
+	   <!--$scope.$apply();手动触发脏值查询机制, 默认触发必须通过ng系列指定操作或者事情等才会触发-->
+		$scope.name="yztc";
+		
+		$scope.age=0;
+		$scope.change=function(){
+			$scope.age=1;
+		}
+		setTimeout(function(){
+			/* $scope.name="new yztc";
+			console.log($scope.name);
+			$scope.$apply();  */ 
+			$scope.$apply(function(){
+				$scope.name="new yztc";
+			})
+		},1000);
+		
+		<!--$watch 监听属性的变化    name是前边定义的属性名-->
+		$scope.$watch("name",function(nval,oval){
+			console.log(nval,oval);
+			//console.log(arguments);
+		})
+	} ])
+	
+	
+	<!--angular提供内置定时$timeout-->
+	app.controller("myController5", ["$scope","$timeout", function($scope,$timeout) {
+	   <!--$scope.$apply();手动触发脏值查询机制, 默认触发必须通过ng系列指定操作或者事情等才会触发-->
+		$scope.name="yztc";
+		$scope.age=0;
+		$scope.change=function(){
+			$scope.age=1;
+		}
+	/* 	setTimeout(function(){
+			$scope.$apply(function(){
+				$scope.name="new yztc";
+			})
+		},1000); */
+	 	$timeout(function(){
+				$scope.name="new val";
+		},1000); 
+		
+		<!--$watch 监听属性的变化    name是前边定义的属性名-->
+		$scope.$watch("name",function(nval,oval){
+			console.log(nval,oval);
+			//console.log(arguments);
+		})
+		
+	} ])
+	
+	<!--angular提供内置定时$timeout 和$interval  都可以触发脏查询-->
+	app.controller("myController6", ["$scope","$timeout","$interval", function($scope,$timeout,$interval) {
+	   <!--$scope.$apply();手动触发脏值查询机制, 默认触发必须通过ng系列指定操作或者事情等才会触发-->
+		$scope.name="yztc";
+		
+		$scope.age=0;
+		$scope.change=function(){
+			$scope.age=1;
+		}
+		
+	 	$timeout(function(){
+				$scope.name="new val";
+	
+		},1000); 
+		
+		$interval(function(){
+			$scope.age+=1;
+		},1000);
+		
+		<!--$watch 监听属性的变化    name是前边定义的属性名-->
+		$scope.$watch("name",function(nval,oval){
+			console.log(nval,oval);
+			//console.log(arguments);
+		})
+	} ])
+</script>
+</html>
+	

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>ui-router路由器的定义和传参用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js" charset="utf-8"></script>
+<script src="../js/angular-ui-router.js" charset="utf-8"></script>
+
+<style media="screen">
+   footer{
+      position:absolute;
+      bottom:100px;
+      left:0;
+   }
+   
+   .active{
+    color:red;
+   }
+</style>
+</head>
+
+<body >
+<!--  ui-view:匹配路由视图-->
+<!--  ui-sref:匹配具体的路由页面名称 -->
+<!--  ui-sref-active="active" :路由激活时要添加的样式名称 -->
+
+   <div ui-view></div>
+      <footer>
+        <a ui-sref="home" ui-sref-active="active">首页</a>
+        <a ui-sref="about" ui-sref-active="active">关于我们</a>
+        <a ui-sref="items" ui-sref-active="active">商品</a>
+      </footer>
+   
+</body>
+
+<!-- 1.引入ui-router文件 -->
+<!-- 2.配置依赖 var app = angular.module("myApp", ["ui.router"]);-->
+<!-- 3.配置状态-->
+
+<script type="text/javascript">
+   <!--angular.module("moduleName",dep)  定义模块(两个参数)-->
+   <!--angular.module("moduleName")   获取模块-->
+	var app = angular.module("myApp", ["ui.router"]);
+	<!--配置定义路由规则-->
+	app.config(["$stateProvider","$urlRouterProvider",function($stateProvider,$urlRouterProvider){
+		<!--定义标准路由-->
+		$stateProvider.state("home",{
+			url:"/home",
+			template:"<h1>首页</h1>",
+		}).state("about",{
+			url:"/about",
+			template:"<h1>关于我们</h1>",
+		}).state("items",{    //<!--定义嵌套路由-->
+			url:"/items",
+			templateUrl:"./items.html",
+			controller:["$scope","$state",function($scope,$state){
+				$scope.jump =function(){
+					$state.go("home")
+				};
+				$scope.jumpOther =function(){
+					$state.go("items.other",{
+						id:"yztc"
+					})
+				}
+			}]
+			
+		}).state("items.comp",{    //<!--定义嵌套路由-->
+			url:"/comp",
+			template:"<h1>这是电脑商品</h1>",
+		}).state("items.phone",{    //<!--定义嵌套路由-->
+			url:"/phone",
+			template:"<h1>这是手机商品</h1>",
+		}).state("items.other",{    //<!--定义嵌套路由-->
+			url:"/other/:id",
+			template:"<h1>这是其他商品</h1>",
+			controller:["$scope","$stateParams",function($scope,$stateParams){
+				console.log($stateParams);
+			}]
+			
+		});
+		
+		
+		<!--默认状态路由重定向到home-->
+		$urlRouterProvider.otherwise("home");
+		
+	}])
+
+</script>
+</html>

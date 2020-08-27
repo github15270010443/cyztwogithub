@@ -1,0 +1,21 @@
+
+<div  class="">
+   <h1>商品展示</h1>
+   <!-- 脚本跳转 -->
+   <button ng-click="jump()">点击跳转至首页</button>
+   <!-- 命令跳转 -->
+   <a ui-sref="about">跳转至关于我们</a>
+   
+   
+      <button ng-click="jumpOther()">跳转至其他并传参</button>
+      
+        <a ui-sref="items.other({id:'yztc'})">跳转至其他并传参</a>
+        
+   <ul>
+     <li><a ui-sref="items.comp">电脑类</a> </li>
+     <li><a ui-sref="items.phone">手机类</a> </li>
+     <li><a ui-sref="items.other">其他类</a> </li>
+   </ul>
+   
+   <div ui-view></div>
+</div>

@@ -1,0 +1,95 @@
+	
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>依赖注入的用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+
+<body >
+	<div ng-controller="myController">
+	{{name}}
+	</div>
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	
+	<!--只有constant服务可以注入到config阶段，其他服务都不可以-->
+	/* app.config(function(PI){
+		console.log(PI);
+	}) */
+		
+	<!--创建一个工厂服务,用来返回函数的值-->
+	app.factory("myFactory",function(){
+		return function(val){
+			return val+"-factory";
+		}
+	})
+	
+	<!--创建一个service服务,作用和factory类似但有不同，用来返回函数的值-->
+	app.service("myService",["myFactory",function(myFactory){
+		this.name="1service";
+		console.log(1,myFactory);
+		this.sayHello =function(){
+			console.log(this.name);
+		}
+	}])
+	
+	<!--常用于声明初始化值-->
+	app.value("defaultVal",100); 
+	<!--常用于声明静态初始化值 可以注入到config阶段-->
+	app.constant("PI",3.14);
+	
+	<!--使用provider服务 可以注入到任何阶段(任何地方) 包括config阶段-->
+	app.provider("yztc",function(){
+		var defaultName ="ccc";
+		this.changeName=function(newName){
+			defaultName=newName;
+		}
+		<!--必须提供$get，  返回的最终的输出真值-->  
+		this.$get =function(){
+		return function(val){
+			return val+"-factory-"+defaultName;
+		}
+		}
+	})
+	<!--config注入阶段 服务需要注入供应商，参数名格式需要provider服务名称+Provider标识-->
+	app.config(function(yztcProvider){
+		console.log(yztcProvider.changeName("Beijing"));
+	})
+	
+	<!--provide服务是angular本身提供的 -->
+	app.config(function($provide){
+		$provide.provider("p1",function(){
+			this.$get =function(){
+			  return "你好呀Provide供应商";
+			}
+		})
+	})
+	
+	<!--其他阶段服务调用provider服务 只需要注入名称即可-->
+	<!--controller服务阶段 是个特殊的服务，只需要注入名称即可-->
+	app.controller("myController", ["$scope","myFactory","myService","defaultVal","PI","yztc","p1",
+		function($scope,myFactory,myService,defaultVal,PI,yztc,p1) {
+		$scope.name = "测试";
+		console.log(myFactory($scope.name));
+		$scope.name =myFactory($scope.name);
+		
+		console.log(myService);
+		myService.sayHello();
+		console.log(defaultVal);
+		console.log(PI);
+		console.log(yztc("你好"));
+		console.log(p1);
+	} ]);
+
+</script>
+</html>
