@@ -7,11 +7,15 @@
 </head>
 
 <body ng-controller="myController">
-     
+     <div ng-repeat="item in items"  style="float:left;width:100px;height:100px;background:#ccc;border:1px green solid;margin-top:2px;">
+       {{item.name}}---{{item.price}}
+     </div>
+     <div style="float:right;width:400px;height:100px;background:#ccc;border:1px green solid;margin-top:2px;">
      <ol><!-- ng-repeat 不加过滤默认数组下标升序排的 -->
        <li ng-repeat="item in items">{{item.name}}---{{item.price}}</li>
      </ol>
-     <ol><!-- orderBy: 汉字过滤默认按照首字母倒叙排序排的 -->
+     </div>
+     <ol  style="margin-left:400px;"><!-- orderBy: 汉字过滤默认按照首字母倒叙排序排的 -->
        <li ng-repeat="item in items | orderBy:'name'">{{item.name}}---{{item.price}}</li>
      </ol>
      <ol><!-- orderBy:'price' 数字默认按照数目从小到大排的 -->
@@ -32,6 +36,9 @@
      
      <ol><!--  filter::5  表示过滤只要数据中包含的，不区分字段和值-->
        <li ng-repeat="item in items | filter:'5' ">{{item.name}}---{{item.price}}</li>
+     </ol>
+        <ol><!--  filter::三 参数是对象，匹配name属性中含有三的-->
+       <li ng-repeat="item in items | filter : {name : '三'}">{{item.name}}---{{item.price}}</li>
      </ol>
 </body>
 <script type="text/javascript">

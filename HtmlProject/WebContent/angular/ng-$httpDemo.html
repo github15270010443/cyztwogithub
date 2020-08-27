@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>$http请求的用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+
+<body >
+<!-- 	<div ng-controller="myController2">
+	{{name}}
+	{{testFun()}}
+	</div> -->
+	
+<div ng-controller="myController">
+    <h5 ng-repeat="p in data" >{{p.name}}---{{p.price}}</h5>
+	</div> 
+	<hr>
+	<div ng-controller="myController3">
+     <h5  style="color:red;" ng-repeat="(key,val) in datas" >{{key}}--{{val}}</h5>
+     
+     <hr>
+     <h5 style="color:green;" ng-repeat="(key,val) in beans" >{{key}}--{{val}}</h5>
+	</div> 
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	
+	app.controller("myController", ["$scope","$http", function($scope,$http) {
+	   $scope.data=[];
+		$http.get("./data.json")
+		.success(function(res){
+			//console.log(res);
+			$scope.data=res;
+			
+		}).error(function(err){
+			
+		})
+	} ])
+	
+	
+   app.controller("myController3", ["$scope","$http", function($scope,$http) {
+	    $scope.data=[];
+	    $scope.obj=null;
+		$http.get("http://localhost:8089/audit-main/demo/226")
+		.success(function(res){
+			console.log(res);
+			$scope.datas=res;
+			$scope.beans=res.beans;
+			
+		}).error(function(err){
+			
+		})
+	} ])
+
+
+</script>
+</html>
+	

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>$http请求的用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+
+<body >
+<!-- 	<div ng-controller="myController2">
+	{{name}}
+	{{testFun()}}
+	</div> -->
+	
+<div ng-controller="myController">
+    <h5 ng-repeat="p in data" >{{p.name}}---{{p.price}}</h5>
+	</div> 
+	<hr>
+ 	<div ng-controller="myController3">
+     <h5  style="color:red;" ng-repeat="(key,val) in datas" >{{key}}--{{val}}</h5>
+     
+     <hr>
+     <h5 style="color:green;" ng-repeat="(key,val) in beans" >{{key}}--{{val}}</h5>
+	</div> 
+	
+	 <hr>
+	<div ng-controller="myController4">
+     <h5  style="color:red;" ng-repeat="(key,val) in datas" >{{key}}--{{val}}</h5>
+     
+     <hr>
+     <h5 style="color:green;" ng-repeat="(key,val) in beans" >{{key}}--{{val}}</h5>
+	</div>
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	
+	app.controller("myController", ["$scope","$http", function($scope,$http) {
+	   $scope.data=[];
+	   //第一种写法:
+		/* $http.get("./data.json")
+		.success(function(res){
+			console.log(res);
+			$scope.data=res;
+			
+		}).error(function(err){
+			
+		}) */
+		//第二种写法:
+	/* 	$http({
+			method:"GET",
+			url:"./data1.json",
+		}).success(function(res){
+			console.log(res);
+			$scope.data=res;
+		}).error(function(err){
+			console.log(err);
+		}) */  
+		//第三种写法
+		/*   $http({
+			method:"GET",
+			url:"./data.json",
+		}).then(function(res){
+			console.log(res);
+			$scope.data=res.data;
+		},function(err){
+			console.log(err);	
+			})  */
+			
+		//get带参数跨越调用
+		  $http({
+			method:"get",
+			url:"./data.json?callback=JSON_CALLBACK",
+		  <!-- param添加参数结果返回示例：http://localhost:8092/HtmlProject/angular/-->
+		  <!-- data.json?callback=JSON_CALLBACK&name=yztc&zxc=ccc -->
+		   params:{
+			   name:"yztc",
+			   zxc:"ccc",
+		   }			
+		}).then(function(res){
+			//console.log(res);
+			$scope.data=res.data;
+		},function(err){
+			console.log(err);	
+			}) 		
+	} ])
+	
+	
+    app.controller("myController3", ["$scope","$http", function($scope,$http) {
+	    $scope.data=[];
+	    $scope.obj=null;
+	/* 	$http.get("http://localhost:8089/audit-main/demo/226")
+		.success(function(res){
+			console.log(res);
+			$scope.datas=res;
+			$scope.beans=res.beans;
+			
+		}).error(function(err){
+			
+		}) */
+		
+		//get带参数跨越调用
+		  $http({
+			method:"get",
+			url:"http://localhost:8089/audit-main/demo/226?callback=JSON_CALLBACK",
+		  <!-- param添加参数结果返回示例：http://localhost:8092/HtmlProject/angular/-->
+		  <!-- data.json?callback=JSON_CALLBACK&name=yztc&zxc=ccc -->
+		   params:{
+			   name:"yztc",
+			   zxc:"ccc",
+		   }			
+		}).success(function(res){
+			//console.log(res);
+			$scope.datas=res;
+			$scope.beans=res.beans;
+		}).error(function(err){
+			console.log(err);
+		})	
+	} ]) 
+	
+	//POST带参数跨越调用
+	  app.controller("myController4", ["$scope","$http", function($scope,$http) {
+	    $scope.data=[];
+	    $scope.obj=null;
+	/* 	$http.get("http://localhost:8089/audit-main/demo/226")
+		.success(function(res){
+			console.log(res);
+			$scope.datas=res;
+			$scope.beans=res.beans;
+			
+		}).error(function(err){
+			
+		}) */
+		
+		
+		  $http({
+			method:"POST",
+			url:"http://localhost:8089/audit-main/demo/insert?callback=JSON_CALLBACK",
+		  <!-- param添加参数结果返回示例：http://localhost:8092/HtmlProject/angular/-->
+		  <!-- data.json?callback=JSON_CALLBACK&name=yztc&zxc=ccc -->
+		   data:{
+			        matterName: "待办cyz1",
+			        matterDescription: "demo描述",
+			        matterStatus: 1
+		   }			
+		}).success(function(res){
+			console.log(res);
+			$scope.datas=res;
+			$scope.beans=res.beans;
+		}).error(function(err){
+			console.log(err);
+		})	
+	} ]) 
+	
+
+
+</script>
+</html>
+	

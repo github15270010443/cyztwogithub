@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>自定义指令link用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+</head>
+
+<body >
+   
+    <div ng-controller="myController">
+      
+   </div> 
+    <!-- 通过自定义指令  来创建自定义标签和属性,属性值  表达式-->
+        <my-directive diy="yztc"></my-directive>
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	app.controller("myController", ["$scope", function($scope) {
+		
+	} ])
+	
+    <!--` es的html写法 -->
+	app.directive("myDirective",function(){
+		return {
+			//配置项
+			template:`
+			<div>
+			    <h1>自定义指令{{name}}</h1>
+			<div>
+			`,
+			
+			link : function(scope,ele,attrs){
+				console.log(ele,attrs);
+				scope.name="yztc";
+				//Angular 自带了轻量级的Jquery  jqLite
+				ele.children().css("background","green");
+			}
+		}
+	})
+</script>
+</html>

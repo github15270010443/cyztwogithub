@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>自定义过滤器用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+
+<body >
+	<div ng-controller="myController">
+	{{name}}
+	{{"Hello" | myFilter}}
+		
+	<ul style="list-style:none;">
+	   <li ng-repeat="zzz in arr3 track by $index">{{zzz}}</li>
+	</ul>
+	
+	<ul style="list-style:none;">
+	   <li ng-repeat="x in arr | myArrFilter">{{x }} </li>
+	</ul>
+	
+	<ul style="list-style:none;">
+	   <li ng-repeat="z in arr2 | myArrFilter">{{z }} </li>
+	</ul>
+	
+	<!-- 自定义管道可以写在ng-repeat中，也可以写在表达式中 -->
+	<ul style="list-style:none;">
+	   <li ng-repeat="zz in arr track by $index | myArrFilter2">{{zz }} </li>
+	    <li ng-repeat="zz in arr track by $index ">{{zz  | myArrFilter2}} </li>
+	</ul>
+	
+	<!-- 自定义多管道写法 -->
+	<ul style="list-style:none;">
+	   <li ng-repeat="zzw in arr3 | myArrFilter  | limitTo:3 ">{{zzw }} </li>
+	</ul>
+
+	</div>
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	app.controller("myController", ["$scope", function($scope) {
+		$scope.name = "测试";
+		$scope.arr = [2,2,3,4,5];
+		$scope.arr2 = [3,2,3,4,6];
+		$scope.arr3 = [1,2,3,4,5];
+	} ])
+    
+	//标准创建一个标准过滤器
+	app.filter("myFilter",function(){
+		return function(val){
+			console.log("aaaa"+val);
+			console.log(val);
+			return val.toUpperCase();
+		}
+	})
+	
+	app.filter("myArrFilter",function(){
+		return function(val1){
+			console.log(val1);
+			 return val1.map(Math.pow); <!--数组下标 0次方 1次方 类推-->
+		
+		}
+	})
+	
+	app.filter("myArrFilter2",function(){
+		return function(val){
+			console.log(val);
+			 return val; <!--数组下标 0次方 1次方 类推-->
+		
+		}
+	})
+		
+	app.filter("myArrFilter3",function(){
+       return function(val){
+    	   console.log(val);
+    	    return val;
+       }
+    })
+</script>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" id="ng-app">
+<head>
+<meta charset="UTF-8">
+    <title>商品展示</title> 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style media="screen">
+        body {
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body ng-controller="itemsController">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-info" ng-click="changeOrderKey('better')">
+                        按评价排序
+                    </button>
+                    <button type="button" class="btn btn-info" ng-click="changeOrderKey('price')">
+                        按价格排序
+                    </button>
+                    <button type="button" class="btn btn-info" ng-click="changeOrderKey('saled')">
+                        按销量排序
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <input type="text" class="form-control" placeholder="输入商品名称" ng-model="keyword">
+            </div>
+        </div>
+        <div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-4" ng-repeat="item in items | orderBy:orderByKey:isReverse | filter:results">
+                <div class="thumbnall" style="text-align:center">
+                    <img ng-src="{{item.img}}" alt="测试图片">
+                    <div class="caption">
+                        <h4 ng-bind="item.name"></h4>
+                        <h4>
+                            <span class="label label-info">{{item.price | currency:'￥'}}</span>
+                        </h4>
+                        <h6>已售：{{item.saled}}</h6>
+                        <h6>好评：{{item.better}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.0/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Mock.js/1.0.1-beta3/mock-min.js"></script>
+<!-- <script src="main.js"></script> -->
+</html>
+
+
+
+
+
+<!-- main.js -->
+<script type="text/javascript">
+//使用mock进行ajax拦截及数据生成
+ Mock.mock("https://eviler.top/qetItems", {
+//var data=Mock.mock("http://z.cn/getItems", {
+    //url随便写，只要与下面$http.get中用到的url对应就行
+    'items|10': [{
+        'id|+1': 1,
+        'price': /[1-9]{4}/,
+        'name': /(iPhone|sansung|BlackBerry|WindowPhone)[0-9]/,
+        'img': "@DataImage(120x120, phone)",
+        'saled': /[1-9]{4}/,
+        'better': /[1-9]{4}/
+    }]
+});
+const app = angular.module("myApp", []);
+//$http服务 专门用来发送ajax请求的服务 Angular内置服务
+app.controller("itemsController", ["$scope", "$http", function($scope, $http) {
+    $scope.items = [];
+    $scope.keyword = "";
+    $scope.orderByKey = "";
+    $scope.isReverse = false;
+    $scope.changeOrderKey = function(type) {
+        $scope.orderByKey = type
+    };
+    $scope.results = function(val) {
+        console.log(val);
+        return val.name.indexOf($scope.keyword) != -1;
+    };
+    $http.get("https://eviler.top/qetItems").then(function(res) {
+        $scope.items = res.data.items;
+        console.log($scope.items);
+    }).catch(function(err) {
+        console.log(err);
+    })
+}])
+</script>

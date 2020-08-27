@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>自定义过滤器scope 作用域用法中</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+</head>
+
+<body >
+   
+    <div ng-controller="myController">
+       <h1>父级消息pmsg:{{pmsg}}</h1>
+        <input type="text" ng-model="count"/>
+       <!-- 通过自定义指令  来创建自定义标签和属性,属性值  表达式-->
+        <my-directive parent-msg="yztc" myname="陈义智"
+         pmsg2="{{pmsg}}"  pmsg3="count"  pfun="fun(msg)"></my-directive>
+   </div> 
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	app.controller("myController", ["$scope", function($scope) {
+		$scope.pmsg = "父消息";
+		$scope.count=0;
+		
+		$scope.fun=function(val){
+			console.log(val+666);
+		}
+	} ])
+	
+    <!--` es的html写法 -->
+	app.directive("myDirective",function(){
+		return {
+			//配置项
+			<!--template:配置模板的内容-->
+			<!--scope:默认为false，继承父级，数据联动，-->
+			<!--为ture，会继承值但不会联动，作用只存在模板自己中，-->
+			<!--scope属性为对象{},不会继承父级值，不会联动，作用只存在模板自己中-->
+			//scope :false,
+			//@：作用单项数据绑定值
+			scope:{
+				parentMsg : "@",
+				myname    : "@",
+				name      : "@myname",
+				pmsg2     : "@",		
+				pmsg3 :"=",
+				
+				pfun: "&",
+			},
+			template:`
+			<div>
+			    <h1>自定义指令</h1>
+			    <h2>继承自父级的作用域pmsg:{{pmsg}}</h2>
+			    <input type="text" ng-model="pmsg"/>
+			    
+			    <h2>驼峰式单向数据绑定用法:parentMsg:{{parentMsg}}</h2>
+			    <input type="text" ng-model="parentMsg"/>
+			    
+		    	 <h2>普通单向数据绑定用法myname:{{myname}}</h2>
+		    	 <h2>别名单向数据绑定用法name:{{name}}</h2>
+		    	 <h2>表达式单向数据绑定用法pmsg2:{{pmsg2}}</h2>
+		    	 <h2>双向数据绑定用法pmsg3:{{pmsg3}}</h2>
+		    	 <input type="text" ng-model="pmsg3"/>
+		    	 <button ng-click="pfun({msg:parentMsg})"> 按钮</button>
+			<div>
+			`,
+		
+		}
+	})
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+<meta charset="utf-8">
+<title>日期 数字 字符串控制器用法</title>
+<!-- form baidu -->
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>  -->
+<!-- form yztc -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script> -->
+<!-- 这里是加载刚下好的echarts.min.js，注意路径写法-->
+<script src="../js/angular-1.4.6.min.js"></script>
+
+</head>
+
+<body >
+	<div ng-controller="myController">
+	{{name}}
+	{{testFun()}}
+	
+    <h4> {{price}}</h4> 
+    <h4>{{price | currency}}</h4> 
+    <h4>{{price | currency:"￥"}}</h4> 
+    <h4>{{price | currency:"人民币"}}</h4> 
+    <h4>{{price | currency:"日元"}}</h4> 
+    
+    <h4>{{time}}</h4> 
+    <h4>{{time | date}}</h4>
+    <h4>{{time | date:"a"}}</h4>  
+    <!-- 输出年月日时分秒毫秒  上下午   星期  格式  -->
+    <h4>{{time | date:"yyyy-MM-dd HH:mm:ss:sss a EEEE"}}</h4>  
+     <h4>{{count}}</h4> 
+     <!-- 三位分节法 ，整数部分每隔3位数逗号隔开，默认小数部分只保留3位数会自动四舍五入  -->
+     <h4>{{count | number}}</h4>  
+     
+     <!-- 小数部分保留指定位数会自动四舍五入  -->
+     <h4>{{count | number:4}}</h4> 
+     <!-- 字符串大小写转换  -->
+     <h4>{{"Hello" | uppercase}}</h4> 
+     <h4>{{"Hello" | lowercase}}</h4> 
+	</div>
+
+</body>
+<script type="text/javascript">
+	var app = angular.module("myApp", []);
+	app.controller("myController", ["$scope", function($scope) {
+		$scope.price = 4999; 
+		$scope.name = "测试";
+		$scope.time = Date.now();
+		$scope.count = 1234567890.123665;
+		$scope.testFun = function(){
+			return "hello";
+		}
+	} ])
+</script>
+</html>
